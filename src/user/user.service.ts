@@ -17,15 +17,27 @@ export class UserService {
     private readonly userRepository: Repository<UserEntity>,
   ) {}
   async createUser(createUserDto: CreateUserDto): Promise<UserEntity> {
+    const errorResponse = {
+      errors: {}
+    }
     const userByEmail = await this.userRepository.findOne({
       where: { username: createUserDto.username },
     });
     const userByUsername = await this.userRepository.findOne({
       where: { email: createUserDto.email },
     });
+
+    if (userByEmail) {
+      errorResponse.errors['email'] = 'has already been taken';
+    }
+
+    if (userByUsername) {
+      errorResponse.errors['username'] = 'has already been taken';
+    }
+
     if (userByEmail || userByUsername) {
       throw new HttpException(
-        'Email or username are taken', 
+        errorResponse, 
         HttpStatus.UNPROCESSABLE_ENTITY,
       );
     }
@@ -40,6 +52,11 @@ export class UserService {
   }
 
   async login(loginUserDto: LoginUserDto): Promise<UserEntity> {
+    const errorResponse = {
+      errors: {
+        'email or password': 'is invalid'
+      }
+    };
     const user = await this.userRepository.findOne({
       where: {
         email: loginUserDto.email,
@@ -50,7 +67,7 @@ export class UserService {
 
     if (!user) {
       throw new HttpException(
-        'Credentials are not valid', 
+        errorResponse, 
         HttpStatus.UNPROCESSABLE_ENTITY
       );
     }
@@ -62,7 +79,7 @@ export class UserService {
 
       if (!isPasswordCorrect) {
       throw new HttpException(
-        'Credentials are not valid', 
+        errorResponse, 
         HttpStatus.UNPROCESSABLE_ENTITY,
       );
     }
