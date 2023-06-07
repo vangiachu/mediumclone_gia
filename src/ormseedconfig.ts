@@ -1,7 +1,7 @@
 import ormconfig from './ormconfig';
 const ormSeedConfig = {
   ...ormconfig,
-  migrations: ['src/seeds/*.ts'],
+  migrations: [__dirname + 'src/seeds/*.ts'],
 };
 
 export default ormSeedConfig;

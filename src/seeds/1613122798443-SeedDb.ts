@@ -10,7 +10,7 @@ export class SeedDb1613122798443 implements MigrationInterface {
 
         await queryRunner.query(
           // password is 123456
-          `INSERT INTO users (username, email, password) VALUES ('foo', 'foo@gmail.com', '......................................')`
+          `INSERT INTO users (username, email, password) VALUES ('foo', 'foo@gmail.com','$2b$10$sb6FXe8PuK8w6uioXxVgBe5UG1lJj2dGjf4PzWDlGEvhdCss7SVJ2')`,
         );
 
         await queryRunner.query(
