@@ -91,6 +91,7 @@ export class ArticleService {
       return { articles: articlesWithFavorited, articlesCount };
     }
 
+
   async getFeed(currentUserId: number, query: any): Promise<ArticlesResponseInterface> {
     const follows = await this.followRepository.find({
       where: {

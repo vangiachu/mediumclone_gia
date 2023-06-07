@@ -104,6 +104,6 @@ export class ProfileService {
 
     buildProfileResponse(profile: ProfileType): ProfileResponseInterface {
       delete profile.email;
-      return { profile};
+      return { profile };
     }
 }

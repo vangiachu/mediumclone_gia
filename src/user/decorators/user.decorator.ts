@@ -8,6 +8,7 @@ export const User = createParamDecorator((data: any, ctx: ExecutionContext) => {
 
   if (data) {
     return request.user[data];
+    // su dung dang @User('data') (Gia);
   }
   
   return request.user;
