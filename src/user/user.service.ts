@@ -40,8 +40,9 @@ export class UserService {
     }
     const newUser = new UserEntity();
     Object.assign(newUser, createUserDto);
-    console.log('newUser', newUser);
-    return await this.userRepository.save(newUser);
+    await this.userRepository.save(newUser);
+    delete newUser.password;
+    return newUser;
   }
 
   async findById(id: number): Promise<UserEntity> {
@@ -99,6 +100,8 @@ export class UserService {
   }
 
   buildUserResponse(user: UserEntity): UserResponseInterface {
+    // const { password, ...newUser } = user;
+
     return {
       user: {
         ...user,
